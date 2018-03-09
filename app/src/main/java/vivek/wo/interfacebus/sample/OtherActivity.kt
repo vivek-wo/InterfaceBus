@@ -1,5 +1,6 @@
 package vivek.wo.interfacebus.sample
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -43,7 +44,6 @@ class OtherActivity : AppCompatActivity() {
             InterfaceBus.getDefault().cancelEventDelivery(event)//停止往下发布消息
             println("OtherActivity 1 received : ${publish?.event} , ${publish?.`object`}")
         }
-
     }
 
     val baseSubscribtionInterface2 = object : BaseSubscribtionInterface() {

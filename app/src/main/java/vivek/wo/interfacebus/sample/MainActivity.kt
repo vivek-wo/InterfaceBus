@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         InterfaceBus.getDefault().unregister(baseSubscribtionInterface)
     }
 
-    private var baseSubscribtionInterface = object : BaseSubscribtionInterface(){
+    val baseSubscribtionInterface = object : BaseSubscribtionInterface(){
         override fun onSubscribed(publish: Publish?) {
             println("MainActivity received : ${publish?.event} , ${publish?.`object`}")
         }

@@ -9,35 +9,54 @@ import java.util.List;
  */
 public class SubscribtionFilter {
 
+    /**
+     * 订阅者优先级 ， 默认为0 ， 数值越大优先级越高
+     */
     private int priority;
 
     private List<String> eventList;
 
+    /**
+     * 订阅者事件过滤器
+     *
+     * @param event
+     */
     public SubscribtionFilter(String event) {
         this(0, event);
     }
 
+    /**
+     * 订阅者事件过滤器
+     *
+     * @param priority 订阅者优先级 默认为0 ，数值越大优先级越高
+     * @param event    订阅者事件
+     */
     public SubscribtionFilter(int priority, String event) {
         eventList = new ArrayList<>();
         this.priority = priority;
         addFilter(event);
     }
 
+    /**
+     * 添加订阅者事件
+     *
+     * @param event 订阅事件
+     */
     public void addFilter(String event) {
         if (!eventList.contains(event)) {
             eventList.add(event);
         }
     }
 
-    public int getPriority() {
+    int getPriority() {
         return priority;
     }
 
-    public Iterator<String> iterator() {
+    Iterator<String> iterator() {
         return eventList.iterator();
     }
 
-    public List<String> getSubscribtionEventList() {
+    List<String> getSubscribtionEventList() {
         return eventList;
     }
 }

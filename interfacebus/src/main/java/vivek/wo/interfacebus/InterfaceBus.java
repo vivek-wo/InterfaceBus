@@ -17,9 +17,12 @@ public class InterfaceBus {
     static volatile InterfaceBus interfaceBus;
     private static final InterfaceBusBuilder DEFAULT_BUILDER = new InterfaceBusBuilder();
 
+    //事件对应订阅者集合
     private final Map<String, CopyOnWriteArrayList<Subscribtion>> mSubscribtionInterfaceTypes;
+    //订阅者对应事件集合
     private final Map<BaseSubscribtionInterface, List<String>> mEventTypes;
 
+    //保证各个线程内部变量的唯一性
     private final ThreadLocal<PostThreadState> mCurrentPostThreadState
             = new ThreadLocal<PostThreadState>() {
         @Override
@@ -48,15 +51,34 @@ public class InterfaceBus {
         mEventTypes = new HashMap<>();
     }
 
+    /**
+     * 添加订阅者监听
+     *
+     * @param subscribtionInterface 订阅者
+     * @param event                 事件
+     */
     public void register(BaseSubscribtionInterface subscribtionInterface, String event) {
         register(subscribtionInterface, event, 0);
     }
 
+    /**
+     * 添加订阅者监听
+     *
+     * @param subscribtionInterface 订阅者
+     * @param event                 事件
+     * @param priority              优先级 ，默认为0 ，数值越大优先级越高
+     */
     public synchronized void register(BaseSubscribtionInterface subscribtionInterface, String event,
                                       int priority) {
         subscribe(subscribtionInterface, event, priority);
     }
 
+    /**
+     * 添加订阅者监听
+     *
+     * @param subscribtionInterface 订阅者
+     * @param filter                事件过滤器
+     */
     public synchronized void register(BaseSubscribtionInterface subscribtionInterface,
                                       SubscribtionFilter filter) {
         Iterator<String> iterator = filter.iterator();
@@ -90,6 +112,11 @@ public class InterfaceBus {
         eventTypeList.add(event);
     }
 
+    /**
+     * 取消订阅者监听
+     *
+     * @param subscribtionInterface 订阅者
+     */
     public synchronized void unregister(BaseSubscribtionInterface subscribtionInterface) {
         List<String> eventList = mEventTypes.get(subscribtionInterface);
         if (eventList != null) {
@@ -115,6 +142,11 @@ public class InterfaceBus {
         }
     }
 
+    /**
+     * 在 {@link BaseSubscribtionInterface#onSubscribed(Publish)} 内部使用 ，取消事件继续往下传递
+     *
+     * @param event 事件
+     */
     public void cancelEventDelivery(String event) {
         PostThreadState postThreadState = mCurrentPostThreadState.get();
         if (!postThreadState.isPosting) {
@@ -129,10 +161,21 @@ public class InterfaceBus {
         postThreadState.canceled = true;
     }
 
+    /**
+     * 发布事件
+     *
+     * @param event  事件
+     * @param object 内容
+     */
     public void post(String event, Object object) {
         post(new Publish(event, object));
     }
 
+    /**
+     * 发布事件
+     *
+     * @param publish 事件内容实体
+     */
     public void post(Publish publish) {
         PostThreadState postThreadState = mCurrentPostThreadState.get();
         List<Publish> publishList = postThreadState.publishQueue;

@@ -9,25 +9,25 @@ public class Subscribtion {
     private String event;
     private BaseSubscribtionInterface subscribtionInterface;
 
-    public Subscribtion(String event, BaseSubscribtionInterface subscribtionInterface) {
+    Subscribtion(String event, BaseSubscribtionInterface subscribtionInterface) {
         this(0, event, subscribtionInterface);
     }
 
-    public Subscribtion(int priority, String event, BaseSubscribtionInterface subscribtionInterface) {
+    Subscribtion(int priority, String event, BaseSubscribtionInterface subscribtionInterface) {
         this.priority = priority;
         this.event = event;
         this.subscribtionInterface = subscribtionInterface;
     }
 
-    public int getPriority() {
+    int getPriority() {
         return priority;
     }
 
-    public String getEvent() {
+    String getEvent() {
         return event;
     }
 
-    public BaseSubscribtionInterface get() {
+    BaseSubscribtionInterface get() {
         return subscribtionInterface;
     }
 }
