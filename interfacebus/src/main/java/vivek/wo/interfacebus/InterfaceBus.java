@@ -67,7 +67,8 @@ public class InterfaceBus {
 
     private void subscribe(BaseSubscribtionInterface subscribtionInterface, String event,
                            int priority) {
-        CopyOnWriteArrayList<Subscribtion> subscribtionList = mSubscribtionInterfaceTypes.get(event);
+        CopyOnWriteArrayList<Subscribtion> subscribtionList = mSubscribtionInterfaceTypes.get
+                (event);
         Subscribtion subscribtion = new Subscribtion(priority, event, subscribtionInterface);
         if (subscribtionList == null) {
             subscribtionList = new CopyOnWriteArrayList<>();
@@ -77,6 +78,7 @@ public class InterfaceBus {
         for (int i = 0; i <= size; i++) {
             if (i == size || priority > subscribtionList.get(i).getPriority()) {
                 subscribtionList.add(i, subscribtion);
+                break;
             }
         }
 
@@ -88,7 +90,7 @@ public class InterfaceBus {
         eventTypeList.add(event);
     }
 
-    private synchronized void unregister(BaseSubscribtionInterface subscribtionInterface) {
+    public synchronized void unregister(BaseSubscribtionInterface subscribtionInterface) {
         List<String> eventList = mEventTypes.get(subscribtionInterface);
         if (eventList != null) {
             for (String event : eventList) {
@@ -98,7 +100,8 @@ public class InterfaceBus {
     }
 
     private void unsubscribe(BaseSubscribtionInterface subscribtionInterface, String event) {
-        CopyOnWriteArrayList<Subscribtion> subscribtionList = mSubscribtionInterfaceTypes.get(event);
+        CopyOnWriteArrayList<Subscribtion> subscribtionList = mSubscribtionInterfaceTypes.get
+                (event);
         if (subscribtionList != null) {
             int size = subscribtionList.size();
             for (int i = 0; i < size; i++) {
@@ -115,7 +118,8 @@ public class InterfaceBus {
     public void cancelEventDelivery(String event) {
         PostThreadState postThreadState = mCurrentPostThreadState.get();
         if (!postThreadState.isPosting) {
-            throw new InterfaceBusException("This method may only be called from inside event handling methods on the posting thread");
+            throw new InterfaceBusException("This method may only be called from inside event " +
+                    "handling methods on the posting thread");
         } else if (event == null) {
             throw new InterfaceBusException("subscriber may not be null.");
         } else if (!postThreadState.publish.getEvent().equals(event)) {
