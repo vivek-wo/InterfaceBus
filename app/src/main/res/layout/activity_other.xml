@@ -4,29 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="vivek.wo.interfacebus.sample.MainActivity">
+    tools:context="vivek.wo.interfacebus.sample.OtherActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MainActivity"
+        android:text="OhterActivity!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_intent"
+        android:id="@+id/btn_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onXmlClick"
-        android:text="Intent OtherActivity" />
+        android:text="Back MainActivity" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onXmlClick"
         android:text="Send Event"
-        app:layout_constraintTop_toBottomOf="@+id/btn_intent" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_back" />
 
 </android.support.constraint.ConstraintLayout>
